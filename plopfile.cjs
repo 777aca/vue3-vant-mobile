@@ -25,9 +25,28 @@ module.exports = function (plop) {
         message: '请输入页面标题，允许空（比如：我的订单）',
       },
       {
-        type: 'input',
+        type: 'rawlist',
         name: 'level',
-        message: '请输入页面等级，默认1',
+        message: '请输入页面等级，默认一级',
+        default: 0,
+        choices: [
+          {
+            name: '一级',
+            value: 1,
+          },
+          {
+            name: '二级',
+            value: 2,
+          },
+          {
+            name: '三级',
+            value: 3,
+          },
+          {
+            name: '四级',
+            value: 4,
+          },
+        ],
       },
       {
         type: 'checkbox',
@@ -45,8 +64,8 @@ module.exports = function (plop) {
     actions: (data) => {
       const dir
               = data.dir.indexOf('/') === 0 ? data.dir.substring(1) : data.dir
-      const name = !Number.isNaN(dir) ? `app${dir}` : dir
-      const { level, title } = data
+      const name = dir
+      const { title, level } = data
       const actions = [
         {
           force: true,
@@ -56,7 +75,7 @@ module.exports = function (plop) {
           data: {
             name,
             title,
-            level: data.blocks.includes('level') ? level : 1,
+            level,
             keepAlive: data.blocks.includes('keepAlive'),
           },
         },
